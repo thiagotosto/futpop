@@ -36,47 +36,19 @@ t_env = StreamTableEnvironment.create(
    env,
    environment_settings=EnvironmentSettings.new_instance().use_blink_planner().build())
 
-#t_env.get_config().get_configuration().set_string("pipeline.jars","file:////home/ubuntu/futpop/docs/flink-connector-kafka-base_2.11-1.11.2.jar;"
-#                                                                  "file:////home/ubuntu/futpop/docs/flink-json-1.10.2.jar;"
-#                                                                  "file:////home/ubuntu/futpop/docs/flink-sql-connector-kafka_2.11-1.11.2.jar;"
-#                                                                  "file:////home/ubuntu/futpop/docs/kafka-clients-2.6.0.jar"
-#                                                                  )
 t_env.get_config().get_configuration().set_string("pipeline.jars", "file:////home/ubuntu/futpop/docs/flink-json-1.10.2.jar;"
                                                                   "file:////home/ubuntu/futpop/docs/flink-sql-connector-kafka_2.11-1.11.2.jar;"
                                                                   "file:////home/ubuntu/futpop/docs/kafka-clients-2.6.0.jar"
                                                                   )
-#t_env.get_config().get_configuration().set_string("classpath.jars","file:///Users/thiagotosto/Documents/Pessoal/futpop/docs/flink-connector-kafka_2.11-1.11.2.jar;file:///Users/thiagotosto/Documents/Pessoal/flink-1.11.2/bin/flink-table-blink_2.11-1.11.2.jar")
-#t_env.get_config().get_configuration()
 
 # Kafka source
 t_env.sql_update(kafka_source_ddl)
 # Kafka target
 t_env.sql_update(kafka_target_ddl)
-# t_env.connect(
-#     Kafka()
-#     .version('universal')
-#     .topic(INPUT_TOPIC)
-#     .property("bootstrap.servers", PROD_KAFKA)
-#
-#     .start_from_latest()
-# ) \
-# .with_format(
-#     Json()
-#     .json_schema(
-#         "{"
-#         "  type: 'object',"
-#         "  msg: {"
-#         "    lon: {"
-#         "      type: 'string'"
-#         "    }"
-#         "  }"
-#         "}"
-#     )
-# )
 
 
-# 注册IP转换地区名称的UDF
-#t_env.register_function("ip_to_province", ip_to_province)
+# UDF
+t_env.register_function("ip_to_province", ip_to_province)
 
 # 添加依赖的Python文件
 # t_env.add_Python_file(
@@ -84,10 +56,10 @@ t_env.sql_update(kafka_target_ddl)
 # t_env.add_Python_file(os.path.dirname(
 #     os.path.abspath(__file__)) + "/enjoyment/cdn/cdn_connector_ddl.py")
 
-# 核心的统计逻辑
+# Insert data
 t_env.from_path("kafka_source")\
    .select("msg")\
    .insert_into("kafka_target")
 
-# 执行作业
+# Executing
 t_env.execute("test_flink")
