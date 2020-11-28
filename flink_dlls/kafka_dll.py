@@ -1,13 +1,14 @@
 kafka_source_ddl = """
 CREATE TABLE kafka_source (
+ key VARCHAR,
  msg VARCHAR
 ) WITH (
- 'connector.type' = 'kafka',
- 'connector.version' = 'universal',
- 'connector.topic' = 'j8g0bh8g-json-test',
- 'connector.properties.bootstrap.servers' = 'tricycle-01.srvs.cloudkafka.com:9094',
- 'connector.properties.scan.startup.mode' = 'earliest-offset',
- 'format.type' = 'json'
+ 'connector' = 'kafka',
+ 'topic' = 'tweet_to_classify',
+ 'properties.group.id' = 'consumer-group',
+ 'properties.bootstrap.servers' = 'ec2-18-205-176-69.compute-1.amazonaws.com:9092',
+ 'properties.scan.startup.mode' = 'latest-offset',
+ 'format' = 'json'
 )
 """
 # 'connector.properties.zookeeper.connect' = 'localhost:2181',
@@ -16,11 +17,10 @@ kafka_target_ddl = """
 CREATE TABLE kafka_target (
  msg VARCHAR
 ) WITH (
- 'connector.type' = 'kafka',
- 'connector.version' = 'universal',
- 'connector.topic' = 'test-target',
- 'connector.properties.bootstrap.servers' = 'tricycle-01.srvs.cloudkafka.com:9094',
- 'format.type' = 'json'
+ 'connector' = 'kafka',
+ 'topic' = 'test-target',
+ 'properties.bootstrap.servers' = 'ec2-18-205-176-69.compute-1.amazonaws.com:9092',
+ 'format' = 'json'
 )
 """
 # 'connector.properties.zookeeper.connect' = 'localhost:2181',

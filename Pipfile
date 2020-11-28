@@ -11,9 +11,8 @@ seaborn = "*"
 matplotlib = "*"
 pymongo = "*"
 dnspython = "*"
-nltk = "*"
-sklearn = "*"
 apache-flink = "*"
+wheel = "*"
 
 [requires]
 python_version = "3.7"

@@ -36,10 +36,10 @@ t_env = StreamTableEnvironment.create(
    env,
    environment_settings=EnvironmentSettings.new_instance().use_blink_planner().build())
 
-t_env.get_config().get_configuration().set_string("pipeline.jars","file:///Users/thiagotosto/Documents/Pessoal/futpop/docs/flink-connector-kafka-base_2.11-1.11.2.jar;"
-                                                                  "file:///Users/thiagotosto/Documents/Pessoal/futpop/docs/flink-json-1.10.2.jar;"
-                                                                  "file:///Users/thiagotosto/Documents/Pessoal/futpop/docs/flink-sql-connector-kafka_2.11-1.11.2.jar;"
-                                                                  "file:///Users/thiagotosto/Documents/Pessoal/futpop/docs/kafka-clients-2.6.0.jar"
+t_env.get_config().get_configuration().set_string("pipeline.jars","file:////home/ubuntu/futpop/docs/flink-connector-kafka-base_2.11-1.11.2.jar;"
+                                                                  "file:////home/ubuntu/futpop/docs/flink-json-1.10.2.jar;"
+                                                                  "file:////home/ubuntu/futpop/docs/flink-sql-connector-kafka_2.11-1.11.2.jar;"
+                                                                  "file:////home/ubuntu/futpop/docs/kafka-clients-2.6.0.jar"
                                                                   )
 #t_env.get_config().get_configuration().set_string("classpath.jars","file:///Users/thiagotosto/Documents/Pessoal/futpop/docs/flink-connector-kafka_2.11-1.11.2.jar;file:///Users/thiagotosto/Documents/Pessoal/flink-1.11.2/bin/flink-table-blink_2.11-1.11.2.jar")
 #t_env.get_config().get_configuration()

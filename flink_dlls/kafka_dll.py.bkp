@@ -1,0 +1,27 @@
+kafka_source_ddl = """
+CREATE TABLE kafka_source (
+ msg VARCHAR
+) WITH (
+ 'connector.type' = 'kafka',
+ 'connector.version' = 'universal',
+ 'connector.topic' = 'tweet_to_classify',
+ 'connector.properties.group.id' = 'consumer-group',
+ 'connector.properties.bootstrap.servers' = 'localhost:9092',
+ 'connector.properties.scan.startup.mode' = 'earliest-offset',
+ 'format.type' = 'json'
+)
+"""
+# 'connector.properties.zookeeper.connect' = 'localhost:2181',
+
+kafka_target_ddl = """
+CREATE TABLE kafka_target (
+ msg VARCHAR
+) WITH (
+ 'connector.type' = 'kafka',
+ 'connector.version' = 'universal',
+ 'connector.topic' = 'test-target',
+ 'connector.properties.bootstrap.servers' = 'localhost:9092',
+ 'format.type' = 'json'
+)
+"""
+# 'connector.properties.zookeeper.connect' = 'localhost:2181',
