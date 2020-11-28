@@ -20,14 +20,6 @@ import glob
 
 
 INPUT_TOPIC = 'json-topic'
-INPUT_TABLE = 'raw_message'
-PROD_ZOOKEEPER = '...'
-PROD_KAFKA = '...'
-
-OUTPUT_TOPIC = 'test-target'
-OUTPUT_TABLE = 'target'
-LOCAL_ZOOKEEPER = 'localhost:2181'
-LOCAL_KAFKA = 'localhost:9092'
 
 # Table Environment
 env = StreamExecutionEnvironment.get_execution_environment()
@@ -48,7 +40,7 @@ t_env.sql_update(kafka_target_ddl)
 
 
 # UDF
-t_env.register_function("ip_to_province", ip_to_province)
+#t_env.register_function("ip_to_province", ip_to_province)
 
 # 添加依赖的Python文件
 # t_env.add_Python_file(
