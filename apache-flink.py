@@ -11,7 +11,7 @@ import glob
 from pyflink.table.udf import udf
 from pyflink.table import DataTypes
 import datetime as dt
-#import sys
+import json
 
 # Table Environment
 env = StreamExecutionEnvironment.get_execution_environment()
@@ -27,9 +27,9 @@ t_env.get_config().get_configuration().set_string("pipeline.jars", "file:////hom
 t_env.get_config().get_configuration().set_string("taskmanager.memory.task.off-heap.size", '80m')
 
 @udf(input_types=[DataTypes.STRING()], result_type=DataTypes.STRING())
-def extract_created_at(json_text):
+def extract_column(json_text, column):
     #dt.datetime.strptime('','')
-    return json.loads(json_text)['created_at']
+    return json.loads(json_text)[column]
 
 # Kafka source
 t_env.sql_update(kafka_source_ddl)
@@ -37,7 +37,7 @@ t_env.sql_update(kafka_source_ddl)
 t_env.sql_update(kafka_target_ddl)
 
 # UDF
-t_env.register_function("extract_created_at", extract_created_at)
+t_env.register_function("extract_column", extract_column)
 
 # 添加依赖的Python文件
 # t_env.add_Python_file(
@@ -47,7 +47,10 @@ t_env.register_function("extract_created_at", extract_created_at)
 
 # Insert data
 t_env.from_path("kafka_source")\
-   .select("msg, extract_created_at(msg) as created_at")\
+   .select("msg,"
+           "extract_column(msg, 'created_at') as created_at,"
+           "extract_column(msg, 'text') as text"
+           )\
    .insert_into("kafka_target")
 
 # Executing

@@ -16,7 +16,8 @@ CREATE TABLE kafka_source (
 kafka_target_ddl = """
 CREATE TABLE kafka_target (
  msg VARCHAR,
- created_at VARCHAR
+ created_at VARCHAR,
+ text VARCHAR
 ) WITH (
  'connector' = 'kafka',
  'topic' = 'test-target',
