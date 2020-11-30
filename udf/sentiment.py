@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../')
 from model.mongo import Mongo
 from nltk.corpus import stopwords
 import nltk
@@ -8,10 +10,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 import pandas as pd
+from pyflink.table.udf import udf
 
 
 class SentimentAnalysis():
-    def __init__(self, conf_path='conf/config.cfg'):
+    def __init__(self, conf_path='../conf/config.cfg'):
         self.mongo_client = Mongo(conf_path).connect()
         self._tasks = [self._lowerCase,
                        self._removeStopwords,
@@ -98,7 +101,7 @@ class SentimentAnalysis():
         return re.sub('({})'.format('|'.join(teams_list)), '', doc)
 
     def _removeNames(self, doc):
-        df_jogadores = pd.read_csv("/Users/thiagotosto/Documents/Pessoal/futpop/docs/caRtola-master/data/2020/2020-medias-jogadores.csv")
+        df_jogadores = pd.read_csv("/home/ubuntu/futpop/docs/caRtola-master/data/2020/2020-medias-jogadores.csv")
         lista_jogadores = list(df_jogadores['player_nickname'].apply(lambda x: x.lower())) + ['gabigol', 'babi', 'domenec', 'arão', 'vini', 'leo sena', 'sasha']
 
         return re.sub('({})'.format('|'.join(lista_jogadores)), '', doc)
@@ -159,5 +162,11 @@ class SentimentAnalysis():
         return predicted
 
 
-sentiment = SentimentAnalysis()
-sentiment.predict("ruim demais")
+@udf(input_types=[DataTypes.STRING()], result_type=DataTypes.STRING())
+def sentiment_predict(text):
+    sentiment = SentimentAnalysis()
+    return sentiment.predict(text)
+
+
+#sentiment = SentimentAnalysis()
+#print(sentiment.predict("bom demais"))

@@ -15,6 +15,7 @@ apache-flink = "*"
 wheel = "*"
 nltk = "*"
 sklearn = "*"
+setuptools = "*"
 
 [requires]
 python_version = "3.7"

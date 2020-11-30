@@ -36,14 +36,15 @@ t_env.sql_update(kafka_source_ddl)
 # Kafka target
 t_env.sql_update(kafka_target_ddl)
 
-# UDF
-t_env.register_function("extract_column", extract_column)
-
 # 添加依赖的Python文件
-# t_env.add_Python_file(
-#     os.path.dirname(os.path.abspath(__file__)) + "/enjoyment/cdn/cdn_udf.py")
+t_env.add_Python_file(
+     os.path.dirname(os.path.abspath(__file__)) + "/udf/sentiment.py")
 # t_env.add_Python_file(os.path.dirname(
 #     os.path.abspath(__file__)) + "/enjoyment/cdn/cdn_connector_ddl.py")
+
+# UDF
+t_env.register_function("extract_column", extract_column)
+t_env.register_function("sentiment_predict", sentiment_predict)
 
 # Insert data
 t_env.from_path("kafka_source")\
