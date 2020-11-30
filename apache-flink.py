@@ -12,6 +12,7 @@ from pyflink.table.udf import udf
 from pyflink.table import DataTypes
 import datetime as dt
 import json
+from udf.sentiment import sentiment_predict
 
 # Table Environment
 env = StreamExecutionEnvironment.get_execution_environment()
@@ -37,7 +38,7 @@ t_env.sql_update(kafka_source_ddl)
 t_env.sql_update(kafka_target_ddl)
 
 # 添加依赖的Python文件
-t_env.add_Python_file(
+t_env.add_python_file(
      os.path.dirname(os.path.abspath(__file__)) + "/udf/sentiment.py")
 # t_env.add_Python_file(os.path.dirname(
 #     os.path.abspath(__file__)) + "/enjoyment/cdn/cdn_connector_ddl.py")
@@ -52,6 +53,11 @@ t_env.from_path("kafka_source")\
            "extract_column(msg, 'created_at') as created_at,"
            "extract_column(msg, 'text') as text"
            )\
+   .select("msg,"
+           "created_at,"
+           "text,"
+           "sentiment_predict(text) as sentiment"
+    )\
    .insert_into("kafka_target")
 
 # Executing

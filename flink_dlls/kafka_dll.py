@@ -17,7 +17,8 @@ kafka_target_ddl = """
 CREATE TABLE kafka_target (
  msg VARCHAR,
  created_at VARCHAR,
- text VARCHAR
+ text VARCHAR,
+ sentiment VARCHAR
 ) WITH (
  'connector' = 'kafka',
  'topic' = 'test-target',

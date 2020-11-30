@@ -11,10 +11,10 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 import pandas as pd
 from pyflink.table.udf import udf
-
+from pyflink.table import DataTypes
 
 class SentimentAnalysis():
-    def __init__(self, conf_path='../conf/config.cfg'):
+    def __init__(self, conf_path='./conf/config.cfg'):
         self.mongo_client = Mongo(conf_path).connect()
         self._tasks = [self._lowerCase,
                        self._removeStopwords,
@@ -159,10 +159,10 @@ class SentimentAnalysis():
 
         #print(self._df_tweets)
 
-        return predicted
+        return predicted[0]
 
 
-@udf(input_types=[DataTypes.STRING()], result_type=DataTypes.STRING())
+@udf(input_types=[DataTypes.STRING()], result_type=DataTypes.STRING(), )
 def sentiment_predict(text):
     sentiment = SentimentAnalysis()
     return sentiment.predict(text)
