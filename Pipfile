@@ -13,6 +13,8 @@ pymongo = "*"
 dnspython = "*"
 apache-flink = "*"
 wheel = "*"
+nltk = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.7"
