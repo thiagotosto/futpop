@@ -6,7 +6,7 @@ CREATE TABLE kafka_source (
  'connector' = 'kafka',
  'topic' = 'tweet_to_classify',
  'properties.group.id' = 'consumer-group',
- 'properties.bootstrap.servers' = 'ec2-3-238-203-167.compute-1.amazonaws.com:9092',
+ 'properties.bootstrap.servers' = 'ec2-3-239-98-128.compute-1.amazonaws.com:9092',
  'properties.scan.startup.mode' = 'latest-offset',
  'format' = 'json'
 )
@@ -23,7 +23,7 @@ CREATE TABLE kafka_target (
 ) WITH (
  'connector' = 'kafka',
  'topic' = 'test-target',
- 'properties.bootstrap.servers' = 'ec2-3-238-203-167.compute-1.amazonaws.com:9092',
+ 'properties.bootstrap.servers' = 'ec2-3-239-98-128.compute-1.amazonaws.com:9092',
  'format' = 'json'
 )
 """
