@@ -162,10 +162,10 @@ class SentimentAnalysis():
         return predicted[0]
 
 
-@udf(input_types=[DataTypes.STRING()], result_type=DataTypes.STRING(), )
+@udf(input_types=[DataTypes.STRING()], result_type=DataTypes.INT(), )
 def sentiment_predict(text):
     sentiment = SentimentAnalysis()
-    return sentiment.predict(text)
+    return 1 if sentiment.predict(text) == 'positive' else 0
 
 
 #sentiment = SentimentAnalysis()

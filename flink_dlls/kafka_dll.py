@@ -19,7 +19,7 @@ CREATE TABLE kafka_target (
  text VARCHAR,
  created_at VARCHAR,
  player VARCHAR,
- sentiment VARCHAR
+ sentiment INT
 ) WITH (
  'connector' = 'kafka',
  'topic' = 'test-target',
