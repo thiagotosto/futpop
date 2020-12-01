@@ -49,13 +49,15 @@ t_env.register_function("sentiment_predict", sentiment_predict)
 
 # Insert data
 t_env.from_path("kafka_source")\
-   .select("msg,"
+   .select("extract_column(msg, 'key') as key,"
            "extract_column(msg, 'created_at') as created_at,"
+           "extract_column(msg, 'id_str') as tweet_id,"
            "extract_column(msg, 'text') as text"
            )\
-   .select("msg,"
-           "created_at,"
+   .select("tweet_id,"
            "text,"
+           "created_at as created_at,"
+           "key as player,"
            "sentiment_predict(text) as sentiment"
     )\
    .insert_into("kafka_target")

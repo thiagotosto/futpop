@@ -15,9 +15,10 @@ CREATE TABLE kafka_source (
 
 kafka_target_ddl = """
 CREATE TABLE kafka_target (
- msg VARCHAR,
- created_at VARCHAR,
+ tweet_id VARCHAR,
  text VARCHAR,
+ created_at VARCHAR,
+ player VARCHAR,
  sentiment VARCHAR
 ) WITH (
  'connector' = 'kafka',
